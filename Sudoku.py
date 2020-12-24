@@ -55,6 +55,7 @@ def check(board,location):
             return toCheck[i]
     #Need to add conditions for when none of the values fit.
     #So when we need to go and recheck previous values
+    
 
 def SudukoSolverStart(gameBoard):
     boardCopy = []
