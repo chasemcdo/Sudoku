@@ -42,46 +42,49 @@ def backTrack(board,location):
         if ((checked[y][pos] == 1) & (pos != x) & (board[y][pos] not in foundValues)):
             
             #print("test")
-            #return check(board,[pos,y])
+            board[y][pos] = check(board,[pos,y])
             break
             
     for pos in range(0,len(board)): #Column
         if ((checked[pos][x] == 1) & (pos != x)):
-            #return check(board,[pos,x])
+            board[pos][x] = check(board,[pos,x])
             break
-    
+    return board
     
 def check(board,location): 
     #board is 9x9 matrix, location is 1x2 matrix of the location
     #returns the predicted value of this location.
-    foundValues = []
     y = location[0]
     x = location[1]
-    currVal = board[y][x]
-    checked[y][x] = 1
-    for i in range(currVal,len(toCheck)): #loops through possible values
-        found = 0
-        for pos in range(0,len(board[y])):  #loops through row
-            if(board[y][pos] == toCheck[i]):    #Checks point value to the current possible value
-                found = 1                           #If they are equal break loop since this value doesn't work
-                if (originalBoard[y][pos] != 0):
-                    foundValues.append(board[y][pos])
-                break
-        if(found == 1):
-            continue
-        for pos in range(0,len(board)):
-            if(board[pos][x] == toCheck[i]):    #Checks point value to the current possible value
-                found = 1                           #If they are equal break loop since this value doesn't work
-                if (originalBoard[pos][x] != 0):
-                    foundValues.append(board[pos][x])
-                break
+    foundValues = []
+    #print("test")
+    while(board[y][x] == 0):
+        #print("test2")
+        currVal = board[y][x]
+        checked[y][x] = 1
+        for i in range(currVal,len(toCheck)): #loops through possible values
+            found = 0
+            for pos in range(0,len(board[y])):  #loops through row
+                if(board[y][pos] == toCheck[i]):    #Checks point value to the current possible value
+                    found = 1                           #If they are equal break loop since this value doesn't work
+                    if (originalBoard[y][pos] != 0):
+                        foundValues.append(board[y][pos])
+                    break
+            if(found == 1):
+                continue
+            for pos in range(0,len(board)):
+                if(board[pos][x] == toCheck[i]):    #Checks point value to the current possible value
+                    found = 1                           #If they are equal break loop since this value doesn't work
+                    if (originalBoard[pos][x] != 0):
+                        foundValues.append(board[pos][x])
+                    break
+                
+            if(found == 0):
+                return toCheck[i]
             
-        if(found == 0):
-            return toCheck[i]
-        
-    #Need to add conditions for when none of the values fit.
-    #So when we need to go and recheck previous values
-    return backTrack(board,location)
+        #Need to add conditions for when none of the values fit.
+        #So when we need to go and recheck previous values
+        board = backTrack(board,location)
 
 def SudukoSolverStart(gameBoard):
     boardCopy = []
