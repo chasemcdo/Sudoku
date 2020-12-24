@@ -79,6 +79,7 @@ def check(board,location):
                         foundValues.append(board[pos][x])
                     break
                 
+                
             if(found == 0):
                 return toCheck[i]
             
