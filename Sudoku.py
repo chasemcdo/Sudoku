@@ -5,7 +5,6 @@ Attempt to create a game of Suduko
 @author: chase
 """
 
-
 toCheck = [1,2,3,4,5,6,7,8,9]
 
 originalBoard = [
