@@ -81,9 +81,11 @@ def check(board,location):
         
     #Need to add conditions for when none of the values fit.
     #So when we need to go and recheck previous values
-    return backTrack(board,location)
+    backTrack(board,location)
+    
+    return None
 
-def SudukoSolverStart(gameBoard):
+def SudokuSolverStart(gameBoard):
     boardCopy = []
     for i in range(0,len(gameBoard)):
         boardCopy.append(list(gameBoard[i])) #Copy the list. Has to be done as a loop otherwise they are not separate lists
@@ -91,9 +93,10 @@ def SudukoSolverStart(gameBoard):
     for i in range(0,len(boardCopy)):
         
         for j in range(0,len(boardCopy[0])):
-            if((boardCopy[i][j] == gameBoard[i][j]) & (boardCopy[i][j] == 0)):
-                boardCopy[i][j] = check(boardCopy,[i,j])    #Loops through every digit checking if it needs to be replaced.
-                
+            if((boardCopy[i][j] == 0)):
+                temp = check(boardCopy,[i,j])    #Loops through every digit checking if it needs to be replaced.
+                if (temp != None):
+                    boardCopy[i][j] = temp
             
             
             #print(boardCopy[i][j])
@@ -109,7 +112,7 @@ if __name__ == "__main__":
     for i in originalBoard: #Prints out starting board, loop is used for readability
         print(i)
     print("\n")
-    solvedBoard = SudukoSolverStart(originalBoard)
+    solvedBoard = SudokuSolverStart(originalBoard)
     
     #print("{}\n".format(solvedBoard))
     for i in solvedBoard: #Prints out "solved" board, loop is used for readability
