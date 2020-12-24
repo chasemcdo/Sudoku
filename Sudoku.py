@@ -7,6 +7,8 @@ Attempt to create a game of Suduko
 
 toCheck = [1,2,3,4,5,6,7,8,9]
 
+foundValues = []
+
 originalBoard = [
           [9,1,0,3,4,0,0,0,7],
           [0,8,3,0,9,7,0,5,0],
@@ -31,9 +33,28 @@ checked = [
           [0,0,0,0,0,0,0,0,0]
           ]
 
+def backTrack(board,location):
+    # Need to check previously changed values to get an acceptable value for this current position.
+    y = location[0]
+    x = location[1]
+    
+    for pos in range(0,len(board[y])): #Row
+        if ((checked[y][pos] == 1) & (pos != x) & (board[y][pos] not in foundValues)):
+            
+            #print("test")
+            #return check(board,[pos,y])
+            break
+            
+    for pos in range(0,len(board)): #Column
+        if ((checked[pos][x] == 1) & (pos != x)):
+            #return check(board,[pos,x])
+            break
+    
+    
 def check(board,location): 
     #board is 9x9 matrix, location is 1x2 matrix of the location
     #returns the predicted value of this location.
+    foundValues = []
     y = location[0]
     x = location[1]
     currVal = board[y][x]
@@ -43,19 +64,24 @@ def check(board,location):
         for pos in range(0,len(board[y])):  #loops through row
             if(board[y][pos] == toCheck[i]):    #Checks point value to the current possible value
                 found = 1                           #If they are equal break loop since this value doesn't work
+                if (originalBoard[y][pos] != 0):
+                    foundValues.append(board[y][pos])
                 break
         if(found == 1):
             continue
         for pos in range(0,len(board)):
             if(board[pos][x] == toCheck[i]):    #Checks point value to the current possible value
                 found = 1                           #If they are equal break loop since this value doesn't work
+                if (originalBoard[pos][x] != 0):
+                    foundValues.append(board[pos][x])
                 break
             
         if(found == 0):
             return toCheck[i]
+        
     #Need to add conditions for when none of the values fit.
     #So when we need to go and recheck previous values
-    
+    return backTrack(board,location)
 
 def SudukoSolverStart(gameBoard):
     boardCopy = []
@@ -80,11 +106,16 @@ if __name__ == "__main__":
     
     #check(gameBoard,[0,0])
     #print("{}\n".format(gameBoard))
-    for i in originalBoard:
+    for i in originalBoard: #Prints out starting board, loop is used for readability
         print(i)
     print("\n")
     solvedBoard = SudukoSolverStart(originalBoard)
     
     #print("{}\n".format(solvedBoard))
-    for i in solvedBoard:
+    for i in solvedBoard: #Prints out "solved" board, loop is used for readability
+        print(i)
+    
+    print("\n")
+    
+    for i in checked:
         print(i)
