@@ -143,6 +143,10 @@ def check(board,location):
     #foundValues = []
     y = location[0]
     x = location[1]
+    
+    if (len(checked[y][x]) == 1):
+        board[y][x] = checked[y][x][0]
+        checked[y][x] = []
     #currVal = board[y][x]
     #print("{}\n".format(checked))
     #print(y,x,checked[y][x])
@@ -166,10 +170,10 @@ def check(board,location):
                 #print("Triggered?")
                 checked[y][x].pop(checked[y][x].index(board[i][j]))
             
-    if (len(checked[y][x]) == 1):
-        board[y][x] = checked[y][x][0]
-        #print(checked[y][x][0])
-        checked[y][x] = []
+    # if (len(checked[y][x]) == 1):
+    #     board[y][x] = checked[y][x][0]
+    #     #print(checked[y][x][0])
+    #     checked[y][x] = []
     #Need to add conditions for when none of the values fit.
     #So when we need to go and recheck previous values
     #backTrack(board,location)
@@ -211,7 +215,12 @@ def secondCheck(board, select):
     elif select == 1:
         We use the min
     '''
+    # print("----------------------\nSecondCheck stuff starts")
+    # for i in board:
+    #     print(i)
     lengthStuff = CheckLengths(1) #Gets length of and location of shortest possibility
+    # print(lengthStuff)
+    # print("SecondCheck stuff ends\n----------------------\n")
     y = lengthStuff[1][0]
     x = lengthStuff[1][1]
     #Create array of the same size of possibilities for this spot
@@ -273,8 +282,8 @@ def SudokuSolverStart(gameBoard):
             #print(count)
             if (count > 100):
                 break
-        if (length == 0):
-            return boardCopy
+        # if (length == 0):
+        #     return boardCopy
         
         count2 += 1
         #print(count)
@@ -286,14 +295,14 @@ def SudokuSolverStart(gameBoard):
         This following will loop will check if we ended up with any spots that had no possible answers.
         If that is found than we reset and use the other value.
         '''
-        print("\nBefore Loop:")
-        for i in checked:
-            print(i)
+        # print("\nBefore Loop:")
+        # for i in checked:
+        #     print(i)
         for i in range(0,len(boardCopy)): 
                 for j in range(0,len(boardCopy[0])):
                     if ((len(checked[i][j]) == 0) & (boardCopy[i][j] == 0)):
                         boardCopy = []
-                        print("-------------------\nIt Happened\n------------------")
+                        # print("-------------------\nIt Happened\n------------------")
                         for i in range(0,len(boardCopy2)):
                             boardCopy.append(list(boardCopy2[i]))
                         for i in range(0,len(checkedCopy)):
@@ -303,15 +312,15 @@ def SudokuSolverStart(gameBoard):
                         else:
                             select = 1
             
-        print("After Loop:")
-        for i in checked:
-            print(i)
-        print("\n")
+        # print("After Loop:")
+        # for i in checked:
+        #     print(i)
+        # print("\n")
         
-        print("Testing Thing")
-        for i in boardCopy:
-            print(i)
-        print("End of Testing Thing\n")
+        # print("Testing Thing")
+        # for i in boardCopy:
+        #     print(i)
+        # print("End of Testing Thing\n")
         
         boardCopy2 = []
         for i in range(0,len(boardCopy)):
