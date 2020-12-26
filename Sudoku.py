@@ -10,15 +10,24 @@ toCheck = [1,2,3,4,5,6,7,8,9]
 foundValues = []
 
 originalBoard = [
-          [9,1,0,3,4,0,0,0,7],
-          [0,8,3,0,9,7,0,5,0],
-          [4,2,7,0,0,0,0,1,0],
-          [0,0,2,6,8,0,4,0,0],
-          [7,0,4,2,0,9,0,0,0],
-          [0,0,8,0,3,4,1,6,0],
-          [8,0,0,0,0,0,0,4,0],
-          [0,0,9,0,0,0,7,2,6],
-          [0,5,6,0,0,3,8,0,1]
+          # [9,1,0,3,4,0,0,0,7],
+          # [0,8,3,0,9,7,0,5,0],
+          # [4,2,7,0,0,0,0,1,0],
+          # [0,0,2,6,8,0,4,0,0],
+          # [7,0,4,2,0,9,0,0,0],
+          # [0,0,8,0,3,4,1,6,0],
+          # [8,0,0,0,0,0,0,4,0],
+          # [0,0,9,0,0,0,7,2,6],
+          # [0,5,6,0,0,3,8,0,1]
+          [0,7,0,0,4,2,0,0,3],
+          [0,0,2,0,9,0,0,0,5],
+          [0,0,8,0,0,0,1,0,0],
+          [0,0,0,0,8,0,6,0,2],
+          [7,1,0,0,0,0,0,4,8],
+          [2,0,6,0,5,0,0,0,0],
+          [0,0,7,0,0,0,4,0,0],
+          [1,0,0,0,7,0,8,0,0],
+          [5,0,0,9,6,0,0,1,0]
           ]
 
 checked = [
@@ -134,6 +143,10 @@ def check(board,location):
     #foundValues = []
     y = location[0]
     x = location[1]
+    
+    if (len(checked[y][x]) == 1):
+        board[y][x] = checked[y][x][0]
+        checked[y][x] = []
     #currVal = board[y][x]
     #print("{}\n".format(checked))
     #print(y,x,checked[y][x])
@@ -157,10 +170,10 @@ def check(board,location):
                 #print("Triggered?")
                 checked[y][x].pop(checked[y][x].index(board[i][j]))
             
-    if (len(checked[y][x]) == 1):
-        board[y][x] = checked[y][x][0]
-        #print(checked[y][x][0])
-        checked[y][x] = []
+    # if (len(checked[y][x]) == 1):
+    #     board[y][x] = checked[y][x][0]
+    #     #print(checked[y][x][0])
+    #     checked[y][x] = []
     #Need to add conditions for when none of the values fit.
     #So when we need to go and recheck previous values
     #backTrack(board,location)
@@ -168,60 +181,215 @@ def check(board,location):
     return board
 
 
-def CheckLengths():
-    length = 0
+def CheckLengths(select):
+    '''
+    Checks the lengths of the arrays in checked.
+    If select = 0:
+        finds longest
+        Returns the length
+    elif select = 1:
+        find shortest
+        Returns the length and the location
+    '''
+    if (select == 0):
+        length = 0
+    elif(select == 1):
+        length = [10,[]]
+        
     for i in range(0,len(checked)):
-            
             for j in range(0,len(checked[0])):
-                if (len(checked[i][j]) > length):
-                    length = len(checked[i][j])
+                if (select == 0): #Checks for longest
+                    if (len(checked[i][j]) > length):
+                        length = len(checked[i][j])
+                        
+                elif (select == 1): #Checks for shortest
+                    if ((len(checked[i][j]) < length[0]) & (len(checked[i][j]) != 0)):
+                        length = [len(checked[i][j]), [i,j]]
                     
     return length
 
+def secondCheck(board, select):
+    '''
+    If select == 0:
+        We use the max
+    elif select == 1:
+        We use the min
+    '''
+    # print("----------------------\nSecondCheck stuff starts")
+    # for i in board:
+    #     print(i)
+    lengthStuff = CheckLengths(1) #Gets length of and location of shortest possibility
+    # print(lengthStuff)
+    # print("SecondCheck stuff ends\n----------------------\n")
+    y = lengthStuff[1][0]
+    x = lengthStuff[1][1]
+    #Create array of the same size of possibilities for this spot
+    count = []
+    for i in range(0,lengthStuff[0]):
+        count.append(0)
+        
+    for i in range(0,len(board)):
+        for j in range(0,len(checked[y][i])):
+            if (checked[y][i][j] in checked[y][x]):
+                count[checked[y][x].index(checked[y][i][j])] += 1
+        
+        for j in range(0,len(checked[i][x])):
+            if (checked[i][x][j] in checked[y][x]):
+                count[checked[y][x].index(checked[i][x][j])] += 1
+    
+    if (select == 0):
+        index = count.index(max(count))
+    else:
+        index = count.index(min(count))
+    valToSet = checked[y][x][index]
+    
+    board[y][x] = valToSet
+    checked[y][x] = []
+    
+    
+    return board
+    
 def SudokuSolverStart(gameBoard):
     boardCopy = []
+    boardCopy2 = []
+    checkedCopy = []
     for i in range(0,len(gameBoard)):
         boardCopy.append(list(gameBoard[i])) #Copy the list. Has to be done as a loop otherwise they are not separate lists
     length = 10
     count = 0
+    count2 = 0
+    select = 0
     while(length > 1):
-        for i in range(0,len(boardCopy)):
+        while(length > 1):
+            for i in range(0,len(boardCopy)):
+                for j in range(0,len(boardCopy[0])):
+                    if((boardCopy[i][j] == 0)):
+                        #temp = 
+                        boardCopy = check(boardCopy,[i,j])    #Loops through every digit checking if it needs to be replaced.
+                        # if (temp != None):
+                        #     boardCopy[i][j] = temp
             
-            for j in range(0,len(boardCopy[0])):
-                if((boardCopy[i][j] == 0)):
-                    #temp = 
-                    boardCopy = check(boardCopy,[i,j])    #Loops through every digit checking if it needs to be replaced.
-                    # if (temp != None):
-                    #     boardCopy[i][j] = temp
-        length = CheckLengths()
-        # print(length)
-        # for i in checked:
-        #      print(i)
-        count += 1
+            
+            
+            #CheckLengths() returns the longest length in the array of possible values.
+            #Once they're all zeroed we have solved the Puzzle.
+            length = CheckLengths(0)
+            
+            # print(length)
+            # for i in checked:
+            #      print(i)
+            count += 1
+            #print(count)
+            if (count > 100):
+                break
+        # if (length == 0):
+        #     return boardCopy
+        
+        count2 += 1
         #print(count)
-        if (count > 10000):
+        if (count2 > 100):
             break
-                
-                #print(boardCopy[i][j])
+        
+        '''
+        Now that we have done the obvious stuff, the following will be for more complex boards
+        This following will loop will check if we ended up with any spots that had no possible answers.
+        If that is found than we reset and use the other value.
+        '''
+        # print("\nBefore Loop:")
+        # for i in checked:
+        #     print(i)
+        for i in range(0,len(boardCopy)): 
+                for j in range(0,len(boardCopy[0])):
+                    if ((len(checked[i][j]) == 0) & (boardCopy[i][j] == 0)):
+                        boardCopy = []
+                        # print("-------------------\nIt Happened\n------------------")
+                        for i in range(0,len(boardCopy2)):
+                            boardCopy.append(list(boardCopy2[i]))
+                        for i in range(0,len(checkedCopy)):
+                                checked[i] = list(checkedCopy[i])
+                        if (select == 1):
+                            select = 0
+                        else:
+                            select = 1
+            
+        # print("After Loop:")
+        # for i in checked:
+        #     print(i)
+        # print("\n")
+        
+        # print("Testing Thing")
+        # for i in boardCopy:
+        #     print(i)
+        # print("End of Testing Thing\n")
+        
+        boardCopy2 = []
+        for i in range(0,len(boardCopy)):
+            boardCopy2.append(list(boardCopy[i]))
+        checkedCopy = []
+        for i in range(0,len(checked)):
+            checkedCopy.append(list(checked[i]))
+            
+        boardCopy = secondCheck(boardCopy,select)
+    
+    #boardCopy = SudokuSolverStart(boardCopy)
+    # lengthStuff = [10,[]]
+    # count = 0
+    # while (lengthStuff[0] > 1):
+    #     lengthStuff = CheckLengths(1) #Gets length of and location of shortest possibility
+    #     #print("HERE:\n{}\n".format(lengthStuff))
+    #     if(lengthStuff[0] == 1):
+    #         boardCopy[lengthStuff[1][0]][lengthStuff[1][1]] = checked[lengthStuff[1][0]][lengthStuff[1][1]][0]
+    #         break
+    #     else:
+    #         boardCopy = secondCheck(boardCopy,[i,j])
+        
+    #     count += 1
+    #     if (count > 100):
+    #         print("couldn't solve")
+    #         break
     
     
     #print("{}\n\n{}\n".format(gameBoard,boardCopy))
     return boardCopy
     
 if __name__ == "__main__":
-    
+    answer = [
+        [6, 7, 1, 5, 4, 2, 9, 8, 3],
+        [3, 4, 2, 8, 9, 1, 7, 6, 5],
+        [9, 5, 8, 7, 3, 6, 1, 2, 4],
+        [4, 9, 5, 1, 8, 3, 6, 7, 2],
+        [7, 1, 3, 6, 2, 9, 5, 4, 8],
+        [2, 8, 6, 4, 5, 7, 3, 9, 1],
+        [8, 6, 7, 2, 1, 5, 4, 3, 9],
+        [1, 2, 9, 3, 7, 4, 8, 5, 6],
+        [5, 3, 4, 9, 6, 8, 2, 1, 7]
+        ]
     #check(gameBoard,[0,0])
     #print("{}\n".format(gameBoard))
     for i in originalBoard: #Prints out starting board, loop is used for readability
         print(i)
     print("\n")
+    
     solvedBoard = SudokuSolverStart(originalBoard)
     
     #print("{}\n".format(solvedBoard))
+    failed = 0
     for i in solvedBoard: #Prints out "solved" board, loop is used for readability
         print(i)
+        if (0 in i):
+            failed = 1
     
+    if (failed == 1):
+        print("Mission Failed:\nZeroes Present")
+    else:
+        print("No Zeroes!")
+        
     print("\n")
     
     for i in checked:
         print(i)
+        
+    if (solvedBoard == answer):
+        print("Matches Answer!")
+    else:
+        print("Doesn't Match Answer")
