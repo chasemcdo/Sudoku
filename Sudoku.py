@@ -180,7 +180,6 @@ def check(board,location):
 def CheckLengths():
     length = 0
     for i in range(0,len(checked)):
-            
             for j in range(0,len(checked[0])):
                 if (len(checked[i][j]) > length):
                     length = len(checked[i][j])
@@ -202,13 +201,20 @@ def SudokuSolverStart(gameBoard):
                     boardCopy = check(boardCopy,[i,j])    #Loops through every digit checking if it needs to be replaced.
                     # if (temp != None):
                     #     boardCopy[i][j] = temp
+        
+        
+        
+        #CheckLengths() returns the longest length in the array of possible values.
+        #Once they're all zeroed we have solved the Puzzle.
         length = CheckLengths()
+        
         # print(length)
         # for i in checked:
         #      print(i)
         count += 1
         #print(count)
-        if (count > 10000):
+        if (count > 2500):
+            print("Couldn't Solve Board")
             break
                 
                 #print(boardCopy[i][j])
