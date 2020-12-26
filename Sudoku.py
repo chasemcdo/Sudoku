@@ -213,11 +213,10 @@ def SudokuSolverStart(gameBoard):
         #      print(i)
         count += 1
         #print(count)
-        if (count > 2500):
+        if (count > 100):
             print("Couldn't Solve Board")
             break
                 
-                #print(boardCopy[i][j])
     
     
     #print("{}\n\n{}\n".format(gameBoard,boardCopy))
@@ -230,6 +229,7 @@ if __name__ == "__main__":
     for i in originalBoard: #Prints out starting board, loop is used for readability
         print(i)
     print("\n")
+    
     solvedBoard = SudokuSolverStart(originalBoard)
     
     #print("{}\n".format(solvedBoard))
