@@ -51,6 +51,82 @@ def backTrack(board,location):
             #return check(board,[pos,x])
             break
 '''    
+  
+def findQuadrant(location):
+    '''
+    This function takes the coordinates and based on finds which of the 3x3 subsections the point is in.
+    This is important because in Sudoku there can only be one of each number in these sections,
+    so for example if 8/9 spots in the top left square, then we know what the 9th one in that section is.
+    '''
+    y = location[0]
+    x = location[1]
+    
+    if(x <= 2): #These conditions get the x value
+        quadrantx = 1
+    elif (x <= 5):
+        quadrantx = 2
+    elif (x <= 8):
+        quadrantx = 3
+    
+    if(y <= 2): #These conditions get the y value
+        quadranty = 1
+    elif (y <= 5):
+        quadranty = 2
+    elif (y <= 8):
+        quadranty = 3
+    
+    if (quadrantx == 1): #These conditions get combine the x and y to get an overall quadrant, which is then returned
+        if (quadranty == 1):
+            quadrant = 1
+        elif(quadranty == 2):
+            quadrant = 4
+        elif(quadranty == 3):
+            quadrant = 7
+            
+    elif (quadrantx == 2):
+        if (quadranty == 1):
+            quadrant = 2
+        elif(quadranty == 2):
+            quadrant = 5
+        elif(quadranty == 3):
+            quadrant = 8
+            
+    elif (quadrantx == 3):
+        if (quadranty == 1):
+            quadrant = 3
+        elif(quadranty == 2):
+            quadrant = 6
+        elif(quadranty == 3):
+            quadrant = 9
+    
+    return quadrant
+  
+def getBounds(quadrant):
+    '''
+    The return value will be a 2x2 matrix:
+        [
+        [0,0],
+        [0,0]
+        ]
+    Where the first set will be the bounds for the y and the second will be the bounds on the x.
+    '''
+    bounds = [[],[]]
+    if ((quadrant == 1) | (quadrant == 4) | (quadrant == 7)):
+        #print("test")
+        bounds[1] = [0,2]
+    elif ((quadrant == 2) | (quadrant == 5) | (quadrant == 8)):
+        bounds[1] = [3,5]
+    elif ((quadrant == 3) | (quadrant == 6) | (quadrant == 9)):
+        bounds[1] = [6,8]
+        
+    if ((quadrant == 1) | (quadrant == 2) | (quadrant == 3)):
+        bounds[0] = [0,2]
+    elif ((quadrant == 4) | (quadrant == 5) | (quadrant == 6)):
+        bounds[0] = [3,5]
+    elif ((quadrant == 7) | (quadrant == 8) | (quadrant == 9)):
+        bounds[0] = [6,8]
+    #print("We Here\n{}\n{}\n".format(quadrant,bounds))
+    return bounds
     
 def check(board,location): 
     #board is 9x9 matrix, location is 1x2 matrix of the location
@@ -71,7 +147,16 @@ def check(board,location):
         if (board[i][x] in checked[y][x]):
             checked[y][x].pop(checked[y][x].index(board[i][x]))
         
-        
+    quadrant = findQuadrant(location) #Calls a function that will check which "quadrant" the point is, since there can only be one of each number in each "qudrant"
+    bounds = getBounds(quadrant) #Calls a function that will give us the bounds for our loop
+    
+    #print("Test:\n{}\n{}\n".format(quadrant,bounds))
+    for i in range(bounds[0][0], (bounds[0][1]+1)):
+        for j in range(bounds[1][0], bounds[1][1]+1):
+            if (board[i][j] in checked[y][x]):
+                #print("Triggered?")
+                checked[y][x].pop(checked[y][x].index(board[i][j]))
+            
     if (len(checked[y][x]) == 1):
         board[y][x] = checked[y][x][0]
         #print(checked[y][x][0])
