@@ -177,12 +177,30 @@ def check(board,location):
     return board
 
 
-def CheckLengths():
-    length = 0
+def CheckLengths(select):
+    '''
+    Checks the lengths of the arrays in checked.
+    If select = 0:
+        finds longest
+        Returns the length
+    elif select = 1:
+        find shortest
+        Returns the length and the location
+    '''
+    if (select == 0):
+        length = 0
+    elif(select == 1):
+        length = [10,[]]
+        
     for i in range(0,len(checked)):
             for j in range(0,len(checked[0])):
-                if (len(checked[i][j]) > length):
-                    length = len(checked[i][j])
+                if (select == 0): #Checks for longest
+                    if (len(checked[i][j]) > length):
+                        length = len(checked[i][j])
+                        
+                elif (select == 1): #Checks for shortest
+                    if ((len(checked[i][j]) < length[0]) & (len(checked[i][j]) != 0)):
+                        length = [len(checked[i][j]), [i,j]]
                     
     return length
 
@@ -206,7 +224,7 @@ def SudokuSolverStart(gameBoard):
         
         #CheckLengths() returns the longest length in the array of possible values.
         #Once they're all zeroed we have solved the Puzzle.
-        length = CheckLengths()
+        length = CheckLengths(0)
         
         # print(length)
         # for i in checked:
@@ -214,9 +232,28 @@ def SudokuSolverStart(gameBoard):
         count += 1
         #print(count)
         if (count > 100):
-            print("Couldn't Solve Board")
             break
-                
+    if (length == 0):
+        return boardCopy
+    
+    '''
+    Now that we have done the obvious stuff, the following will be for more complex boards
+    '''
+    lengthStuff = [10,[]]
+    count = 0
+    while (lengthStuff[0] > 1):
+        lengthStuff = CheckLengths(1) #Gets length of and location of shortest possibility
+        #print("HERE:\n{}\n".format(lengthStuff))
+        if(lengthStuff[0] == 1):
+            boardCopy[lengthStuff[1][0]][lengthStuff[1][1]] = checked[lengthStuff[1][0]][lengthStuff[1][1]][0]
+        else:
+            pass
+            
+        
+        count += 1
+        if (count > 100):
+            #print("test")
+            break
     
     
     #print("{}\n\n{}\n".format(gameBoard,boardCopy))
