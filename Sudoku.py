@@ -38,6 +38,17 @@ originalBoard = [
            # [0,0,0,0,0,0,0,0,0],
            # [0,0,0,0,0,0,0,0,0]
           ]
+currentBoard = [
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0]
+            ]
 
 checked = [
           [[],[],[],[],[],[],[],[],[]],
@@ -277,6 +288,8 @@ def SudokuSolverStart(gameBoard):
                         boardCopy = check(boardCopy,[i,j])    #Loops through every digit checking if it needs to be replaced.
                         # if (temp != None):
                         #     boardCopy[i][j] = temp
+                        # for i in range(0,len(boardCopy)):
+                        #     currentBoard[i] = list(boardCopy[i])
             
             
             
@@ -309,6 +322,7 @@ def SudokuSolverStart(gameBoard):
         #     print(i)
         for i in range(0,len(boardCopy)): 
                 for j in range(0,len(boardCopy[0])):
+                    # print("{},{},\n{}\n\n{}\n".format(i,j,checked,boardCopy))
                     if ((len(checked[i][j]) == 0) & (boardCopy[i][j] == 0)):
                         boardCopy = []
                         # print("-------------------\nIt Happened\n------------------")
