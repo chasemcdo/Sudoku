@@ -19,15 +19,24 @@ originalBoard = [
           # [8,0,0,0,0,0,0,4,0],
           # [0,0,9,0,0,0,7,2,6],
           # [0,5,6,0,0,3,8,0,1]
-          [0,7,0,0,4,2,0,0,3],
-          [0,0,2,0,9,0,0,0,5],
-          [0,0,8,0,0,0,1,0,0],
-          [0,0,0,0,8,0,6,0,2],
-          [7,1,0,0,0,0,0,4,8],
-          [2,0,6,0,5,0,0,0,0],
-          [0,0,7,0,0,0,4,0,0],
-          [1,0,0,0,7,0,8,0,0],
-          [5,0,0,9,6,0,0,1,0]
+           [0,7,0,0,4,2,0,0,3],
+           [0,0,2,0,9,0,0,0,5],
+           [0,0,8,0,0,0,1,0,0],
+           [0,0,0,0,8,0,6,0,2],
+           [7,1,0,0,0,0,0,4,8],
+           [2,0,6,0,5,0,0,0,0],
+           [0,0,7,0,0,0,4,0,0],
+           [1,0,0,0,7,0,8,0,0],
+           [5,0,0,9,6,0,0,1,0]
+          # [0,0,0,0,0,0,0,0,0],
+          # [0,0,0,0,0,0,0,0,0],
+          # [0,0,0,0,0,0,0,0,0],
+          # [0,0,0,0,0,0,0,0,0],
+          # [0,0,0,0,0,0,0,0,0],
+          # [0,0,0,0,0,0,0,0,0],
+          # [0,0,0,0,0,0,0,0,0],
+          # [0,0,0,0,0,0,0,0,0],
+          # [0,0,0,0,0,0,0,0,0]
           ]
 
 checked = [
@@ -219,7 +228,7 @@ def secondCheck(board, select):
     # for i in board:
     #     print(i)
     lengthStuff = CheckLengths(1) #Gets length of and location of shortest possibility
-    # print(lengthStuff)
+    #print(lengthStuff)
     # print("SecondCheck stuff ends\n----------------------\n")
     y = lengthStuff[1][0]
     x = lengthStuff[1][1]
@@ -259,7 +268,7 @@ def SudokuSolverStart(gameBoard):
     count = 0
     count2 = 0
     select = 0
-    while(length > 1):
+    while(length >= 1):
         while(length > 1):
             for i in range(0,len(boardCopy)):
                 for j in range(0,len(boardCopy[0])):
@@ -328,8 +337,11 @@ def SudokuSolverStart(gameBoard):
         checkedCopy = []
         for i in range(0,len(checked)):
             checkedCopy.append(list(checked[i]))
-            
-        boardCopy = secondCheck(boardCopy,select)
+        #print(CheckLengths(1)[0])
+        if (CheckLengths(1)[0] == 10):   
+            pass
+        else:
+            boardCopy = secondCheck(boardCopy,select)
     
     #boardCopy = SudokuSolverStart(boardCopy)
     # lengthStuff = [10,[]]
