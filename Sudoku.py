@@ -274,6 +274,7 @@ def SudokuSolverStart(gameBoard):
     boardCopy = []
     boardCopy2 = []
     checkedCopy = []
+    global currentBoard
     for i in range(0,len(gameBoard)):
         boardCopy.append(list(gameBoard[i])) #Copy the list. Has to be done as a loop otherwise they are not separate lists
     length = 10
@@ -289,8 +290,10 @@ def SudokuSolverStart(gameBoard):
                         boardCopy = check(boardCopy,[i,j])    #Loops through every digit checking if it needs to be replaced.
                         # if (temp != None):
                         #     boardCopy[i][j] = temp
-                        # for i in range(0,len(boardCopy)):
-                        #     currentBoard[i] = list(boardCopy[i])
+                        currentBoard = []
+                        for row in boardCopy:
+                            #print(row)
+                            currentBoard.append(list(row))
             
             
             
@@ -357,6 +360,11 @@ def SudokuSolverStart(gameBoard):
             pass
         else:
             boardCopy = secondCheck(boardCopy,select)
+        
+        currentBoard = []
+        for row in boardCopy:
+            #print(row)
+            currentBoard.append(list(row))
     
     #boardCopy = SudokuSolverStart(boardCopy)
     # lengthStuff = [10,[]]
