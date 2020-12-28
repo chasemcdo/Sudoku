@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Dec 24 01:38:22 2020
-Attempt to create a game of Suduko
-@author: chase
+This file contains the solver portion of my Sudoku Game.
+Creating a second file which will create the GUI and pull from this code.
+@author: Chase McDougall
 """
 
 toCheck = [1,2,3,4,5,6,7,8,9]
