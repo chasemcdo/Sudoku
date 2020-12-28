@@ -10,6 +10,8 @@ toCheck = [1,2,3,4,5,6,7,8,9]
 
 foundValues = []
 
+
+#Board to Solve
 originalBoard = [
            # [9,1,0,3,4,0,0,0,7],
            # [0,8,3,0,9,7,0,5,0],
@@ -39,6 +41,8 @@ originalBoard = [
            # [0,0,0,0,0,0,0,0,0],
            # [0,0,0,0,0,0,0,0,0]
           ]
+
+#The current state of the board
 currentBoard = [
             [0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0],
@@ -51,6 +55,7 @@ currentBoard = [
             [0,0,0,0,0,0,0,0,0]
             ]
 
+#Array of checked values for every position
 checked = [
           [[],[],[],[],[],[],[],[],[]],
           [[],[],[],[],[],[],[],[],[]],
