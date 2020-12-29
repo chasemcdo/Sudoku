@@ -39,6 +39,20 @@ while playing:
     screen = py.display.set_mode([boardWidth, boardWidth + width + margin])
     screen.fill([0,0,0])
     
+    #Create Welcome Text
+    rect0 = py.draw.rect(screen, [0,0,0], py.Rect(0, 2*margin + 1*width, 3*width + 2*margin, width))
+    rect0 = (rect0[0] + round(width*1.3), rect0[1] + round(width*0.25), rect0[2], rect0[3])
+    text0 = font.render("Welcome to my Sudoku Game", True, (255,255,255))
+        
+    screen.blit(text0,rect0)
+    
+    #Create Credit Text
+    rect0 = py.draw.rect(screen, [0,0,0], py.Rect(0, 2*margin + 2*width, 3*width + 2*margin, width))
+    rect0 = (rect0[0] + round(width*2.25), rect0[1] + round(width*0.25), rect0[2], rect0[3])
+    text0 = font.render("By Chase McDougall", True, (255,255,255))
+        
+    screen.blit(text0,rect0)
+    
     #Create Solve Button
     rect0 = py.draw.rect(screen, [50,50,50], py.Rect(4*margin + 3*width, 4*margin + 3*width, 3*width + 2*margin, width))
     rect0 = (rect0[0] + round(width*0.9), rect0[1] + round(width*0.25), rect0[2], rect0[3])
