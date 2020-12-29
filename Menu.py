@@ -6,12 +6,21 @@ Created on Tue Dec 29 11:05:39 2020
 """
 
 from AppInterface import *
-from Sudoku import originalBoard
 from random import randrange
 from BoardBank import *
 #Initialize PyGame
 py.init()
-global originalBoard
+
+
+global orgBoard
+orgBoard = []
+for i in range(9):
+    toAppend = []
+    for j in range(9):
+        toAppend.append(0)
+    orgBoard.append(toAppend)
+    
+    
 #Calls the Board
 #mainFunction()
 
@@ -73,12 +82,14 @@ while playing:
             #Start button clicked:   
                 if (gridy == 3):
                     boardNumber = randrange(len(board))
-                    originalBoard = []
+                    #global orgBoard
                     print(board[boardNumber])
+                    print("\n")
+                    orgBoard = []
                     for row in board[boardNumber]:
-                        originalBoard.append(list(row))
+                        orgBoard.append(list(row))
                         
-                    mainFunction()
+                    mainFunction(orgBoard)
             #Exit button clicked
                 elif (gridy == 5):
                     playing = False
