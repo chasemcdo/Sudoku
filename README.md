@@ -10,5 +10,5 @@ How to use:
 In the Sudoku.py file, you'll find all the "brains" behind the solving and computation.
 
 
-The "PyGameStuff.py" file is where the interface is created. This file will call upon the Sudoku.py file to solve and check.
-Currently PyGameStuff pulls the "originalBoard" from Sudoku, but this may change in a future update and will be reflected in this document.
+The "AppInterface.py" file is where the interface is created. This file will call upon the Sudoku.py file to solve and check.
+Currently AppInterface pulls the "originalBoard" from Sudoku, but this may change in a future update and will be reflected in this document.
