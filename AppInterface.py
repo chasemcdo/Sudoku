@@ -143,6 +143,7 @@ def mainFunction():
         for event in py.event.get():
             #Closes app if an exit was prompted
             if event.type == py.QUIT:
+                py.quit()
                 running = False
             #Click detection
             elif event.type == py.MOUSEBUTTONDOWN:
@@ -329,9 +330,9 @@ def mainFunction():
         py.display.flip()
     
     # Done! Time to quit.
-    py.quit()
+    #py.quit()
     
 if __name__ == "__main__":
     py.init()
     mainFunction()
-    #py.quit()
+    py.quit()
