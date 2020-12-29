@@ -243,8 +243,8 @@ while running:
                                 possible = True
                     #After determining if a cell can be filled we run a loop that exits once a pseudorandom cell is found that is writable.
                     if possible:            
-                        x = 0
-                        y = 0
+                        x = randrange(9)
+                        y = randrange(9)
                         while((array[y][x] != 0) & (correctnessArray[y][x] != 1)):
                             x = randrange(9)
                             y = randrange(9)
