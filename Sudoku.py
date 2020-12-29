@@ -86,7 +86,27 @@ def backTrack(board,location):
             #return check(board,[pos,x])
             break
 '''    
-  
+
+def checkValid(board):
+    #This function will be used in the interface to determine if a move
+    #made by the player was valid when they call "check"
+    #Returns a list containing the coordinates of all the incorrect spots.
+    incorrectSpots = []
+    for y in range(len(board)):
+        for x in range(len(board[0])):
+            currVal = board[y][x]
+            for i in range(0,len(board[0])): #Check row, and pop found values from the list of possible values
+                if (x != i):
+                    if (board[y][i] == currVal) & ([y,x] not in incorrectSpots):
+                        incorrectSpots.append([y,x])
+               
+            for i in range(0,len(board[0])): #Check column, and pop found values from the list of possible values
+                if (y != i):
+                    if (board[i][x] == currVal) & ([y,x] not in incorrectSpots):
+                        incorrectSpots.append([y,x])
+    
+    return incorrectSpots
+
 def findQuadrant(location):
     '''
     This function takes the coordinates and based on finds which of the 3x3 subsections the point is in.
