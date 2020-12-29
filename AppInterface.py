@@ -15,10 +15,13 @@ def ifActive(array):
 
 from Sudoku import *
 from random import randrange
+#from Menu import orgBoard
 # Import and initialize the pygame library
 import pygame as py
 
-def mainFunction():    
+#global orgBoard
+    #orgBoard will now be passed in when mainFunction is called
+def mainFunction(orgBoard):    
     #py.init()
     
     
@@ -28,8 +31,8 @@ def mainFunction():
     boardWidth = 380
     
     
-    #Calls the Board Solver from Sudoku.py and solves the originalBoard also located there:
-    solvedBoard = SudokuSolverStart(originalBoard)
+    #Calls the Board Solver from Sudoku.py and solves the orgBoard also located there:
+    solvedBoard = SudokuSolverStart(orgBoard)
     
     # Set up the drawing window
     screen = py.display.set_mode([boardWidth, boardWidth + width + margin])
@@ -65,7 +68,7 @@ def mainFunction():
         correctnessArray.append(toAppend)
     
     array = []
-    for row in originalBoard:
+    for row in orgBoard:
         array.append(list(row))
     
     #The following loop creates the 9x9 grid on the board.
@@ -173,7 +176,7 @@ def mainFunction():
                 #Will be removed after testing
                 if (gridy <= 8):
                     #This is where the user input will be taken
-                    if (originalBoard[gridy][gridx] == 0):
+                    if (orgBoard[gridy][gridx] == 0):
                     #     if (array[gridy][gridx] == 0):
                     #         array[gridy][gridx] = 1
                     #     else:
@@ -200,7 +203,7 @@ def mainFunction():
                     #Reset triggered        
                     elif (gridx < 4):
                         array = []
-                        for row in originalBoard:
+                        for row in orgBoard:
                             array.append(list(row))
                         #Reset CorrectnessArray
                         correctnessArray = []
@@ -302,7 +305,7 @@ def mainFunction():
         for i in range(0,9):
             for j in range(0,9):
                 #Creates Square
-                if (originalBoard[i][j] == 0):
+                if (orgBoard[i][j] == 0):
                     if (correctnessArray[i][j] == 1):
                         rect = py.draw.rect(screen, [255,0,0], py.Rect(currentX, currentY, width, width))
                     else:
@@ -334,5 +337,8 @@ def mainFunction():
     
 if __name__ == "__main__":
     py.init()
-    mainFunction()
+    orgBoard = []
+    for row in originalBoard:
+        orgBoard.append(list(row))
+    mainFunction(orgBoard)
     py.quit()
