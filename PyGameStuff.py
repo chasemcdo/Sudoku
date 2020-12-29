@@ -107,6 +107,7 @@ while running:
             #Changes the value of the gridpoint
             #Will be removed after testing
             if (gridy <= 8):
+                #This is where the user input will be taken
                 if (originalBoard[gridy][gridx] == 0):
                     if (array[gridy][gridx] == 0):
                         array[gridy][gridx] = 1
