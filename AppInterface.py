@@ -332,4 +332,6 @@ def mainFunction():
     py.quit()
     
 if __name__ == "__main__":
+    py.init()
     mainFunction()
+    #py.quit()
