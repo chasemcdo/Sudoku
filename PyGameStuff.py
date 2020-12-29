@@ -17,10 +17,12 @@ boardWidth = 380
 #Calls the Board Solver from Sudoku.py and solves the originalBoard also located there:
 solvedBoard = SudokuSolverStart(originalBoard)
 
-
 # Set up the drawing window
-screen = py.display.set_mode([boardWidth, boardWidth + round(width/2) + margin])
+screen = py.display.set_mode([boardWidth, boardWidth + width + margin])
 screen.fill([255,255,255])
+
+
+
 
 #create array of 0s
 array = []
@@ -30,7 +32,9 @@ for i in range(9):
         toAppend.append(0)
     array.append(toAppend)
 
-
+array = []
+for row in originalBoard:
+    array.append(list(row))
 
 #The following loop creates the 9x9 grid on the board.
 # currentX = float(margin)
@@ -48,8 +52,26 @@ for i in range(9):
 #     currentX = float(margin)
 
 
+#Create Solve Button
+font = py.font.Font('freesansbold.ttf',20)
+rect0 = py.draw.rect(screen, [0,0,0], py.Rect(margin, boardWidth, 2*width + margin, width))
+rect0 = (rect0[0] + round(width*0.25), rect0[1] + round(width*0.25), rect0[2], rect0[3])
+
+text0 = font.render("Solve", True, (255,255,255))
+
+screen.blit(text0,rect0)
+
+#Create reset button
+rect1 = py.draw.rect(screen, [0,0,0], py.Rect(3*margin + width*2, boardWidth, 2*width + margin, width))
+rect1 = (rect1[0] + round(width*0.25), rect1[1] + round(width*0.25), rect1[2], rect1[3])
+
+text1 = font.render("Reset", True, (255,255,255))
+
+screen.blit(text1,rect1)
 
 
+#Change Font For Gameloop
+font = py.font.Font('freesansbold.ttf',32)
 
 #Gameloop begins
 running = True
@@ -60,7 +82,6 @@ while running:
         #Closes app if an exit was prompted
         if event.type == py.QUIT:
             running = False
-            
         #Click detection
         elif event.type == py.MOUSEBUTTONDOWN:
             #Gets the mouse position
@@ -76,17 +97,31 @@ while running:
                 start += (width + margin)
             #Finds the row
             start = (width + margin)
-            for i in range(9):
+            for i in range(10):
                 gridy = i
                 if y < start:
                     break
                 start += (width + margin)
                 
+            
             #Changes the value of the gridpoint
-            if (array[gridy][gridx] == 0):
-                array[gridy][gridx] = 1
+            #Will be removed after testing
+            if (gridy <= 8):
+                if (array[gridy][gridx] == 0):
+                    array[gridy][gridx] = 1
+                else:
+                    array[gridy][gridx] = 0
             else:
-                array[gridy][gridx] = 0
+                #Solve button Clicked
+                if (gridx < 2):
+                    array = []
+                    for row in solvedBoard:
+                        array.append(list(row))
+                #Reset triggered        
+                elif (gridx < 4):
+                    array = []
+                    for row in originalBoard:
+                        array.append(list(row))
             
             #print("({},{})".format(gridx,gridy))
      
@@ -95,11 +130,22 @@ while running:
     currentY = float(margin)
     for i in range(0,9):
         for j in range(0,9):
-            py.draw.rect(screen, [0,0,0], py.Rect(currentX, currentY, width, width))
+            rect = py.draw.rect(screen, [0,0,0], py.Rect(currentX, currentY, width, width))
         
             #print(array[i][j])
-            if array[i][j] == 1:
-                py.draw.rect(screen, [100,0,100], py.Rect(currentX, currentY, width, width))
+            # if array[i][j] == 1:
+            #     rect = py.draw.rect(screen, [100,0,100], py.Rect(currentX, currentY, width, width))
+            
+            #Initilizes text to be written in the square
+            text = font.render("{}".format(array[i][j]), True, (255,255,255))
+            #print(rect)
+            
+            #Changes the coordinates of the rect, so that the text is centred
+            rect = (rect[0] + width//3.5,rect[1] + width//6,rect[2],rect[3])
+            
+            #Condition to only display text if it is non zero.
+            if (array[i][j] != 0):
+                screen.blit(text,rect)
             
             currentX += width + margin
         currentY += width + margin
