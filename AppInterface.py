@@ -2,6 +2,16 @@
 This is the file that will initiate the GUI for my Sudoku Game
 This file calls upon the "Sudoku.py" file for solving.
 '''
+def ifActive(array):
+    #Loops through array and returns:
+    #True and the location if found
+    #Else returns False and [0,0]
+    for i in range(len(array)):
+        for j in range(len(array[0])):
+            if array[i][j] == True:
+                return [True,[i,j]]
+    return [False,[0,0]]
+
 from Sudoku import *
 # Import and initialize the pygame library
 import pygame as py
@@ -22,15 +32,21 @@ screen = py.display.set_mode([boardWidth, boardWidth + width + margin])
 screen.fill([255,255,255])
 
 
-
-
-#create array of 0s
-array = []
+#Create array that keeps track of active boxes
+isActive = []
 for i in range(9):
     toAppend = []
     for j in range(9):
-        toAppend.append(0)
-    array.append(toAppend)
+        toAppend.append(False)
+    isActive.append(toAppend)
+
+#create array of 0s
+# array = []
+# for i in range(9):
+#     toAppend = []
+#     for j in range(9):
+#         toAppend.append(0)
+#     array.append(toAppend)
 
 array = []
 for row in originalBoard:
@@ -73,6 +89,9 @@ screen.blit(text1,rect1)
 #Change Font For Gameloop
 font = py.font.Font('freesansbold.ttf',32)
 
+#VariableFor Tracking Previous click
+prevClick = [0,0]
+
 #Gameloop begins
 running = True
 while running:
@@ -84,6 +103,8 @@ while running:
             running = False
         #Click detection
         elif event.type == py.MOUSEBUTTONDOWN:
+            #Resets previous click
+            isActive[prevClick[0]][prevClick[1]] = False
             #Gets the mouse position
             pos = py.mouse.get_pos()
             x = pos[0]
@@ -109,10 +130,14 @@ while running:
             if (gridy <= 8):
                 #This is where the user input will be taken
                 if (originalBoard[gridy][gridx] == 0):
-                    if (array[gridy][gridx] == 0):
-                        array[gridy][gridx] = 1
-                    else:
-                        array[gridy][gridx] = 0
+                #     if (array[gridy][gridx] == 0):
+                #         array[gridy][gridx] = 1
+                #     else:
+                #         array[gridy][gridx] = 0
+                    #Registers current click
+                    isActive[gridy][gridx] = True
+                    #Stores click for next round
+                    prevClick = [gridy,gridx]
             elif (gridy > 8):
                 #Solve button Clicked
                 if (gridx < 2):
@@ -124,8 +149,22 @@ while running:
                     array = []
                     for row in originalBoard:
                         array.append(list(row))
-            
-            #print("({},{})".format(gridx,gridy))
+        
+        #Following mouseclick checks for KEYDOWN
+        elif (event.type == py.KEYDOWN):
+            activity = ifActive(isActive)
+            if activity[0] == True:
+                x = activity[1][1]
+                y = activity[1][0]
+                #print("True")
+                if event.key == py.K_KP_ENTER:
+                        print("Enter")
+                        isActive[y][x] = False
+                elif event.unicode in "123456789":
+                #User typed something after clicking on a box.
+                    array[y][x] = int(event.unicode)
+                
+                
      
     #Checks the value of the grid and writes accordingly
     currentX = float(margin)
