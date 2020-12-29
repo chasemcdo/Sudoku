@@ -107,11 +107,12 @@ while running:
             #Changes the value of the gridpoint
             #Will be removed after testing
             if (gridy <= 8):
-                if (array[gridy][gridx] == 0):
-                    array[gridy][gridx] = 1
-                else:
-                    array[gridy][gridx] = 0
-            else:
+                if (originalBoard[gridy][gridx] == 0):
+                    if (array[gridy][gridx] == 0):
+                        array[gridy][gridx] = 1
+                    else:
+                        array[gridy][gridx] = 0
+            elif (gridy > 8):
                 #Solve button Clicked
                 if (gridx < 2):
                     array = []
@@ -130,12 +131,11 @@ while running:
     currentY = float(margin)
     for i in range(0,9):
         for j in range(0,9):
-            rect = py.draw.rect(screen, [0,0,0], py.Rect(currentX, currentY, width, width))
-        
-            #print(array[i][j])
-            # if array[i][j] == 1:
-            #     rect = py.draw.rect(screen, [100,0,100], py.Rect(currentX, currentY, width, width))
-            
+            #Creates Square
+            if (originalBoard[i][j] == 0):
+                rect = py.draw.rect(screen, [0,0,0], py.Rect(currentX, currentY, width, width))
+            else:
+                rect = py.draw.rect(screen, [50,50,50], py.Rect(currentX, currentY, width, width))
             #Initilizes text to be written in the square
             text = font.render("{}".format(array[i][j]), True, (255,255,255))
             #print(rect)
