@@ -18,12 +18,31 @@ width = 40
 margin = 2
 boardWidth = 380
 
-# Set up the drawing window
-screen = py.display.set_mode([boardWidth, boardWidth + width + margin])
-screen.fill([255,255,255])
+#Set font
+font = py.font.Font('freesansbold.ttf',20)
 
 playing = True
 while playing:
+
+    # Set up the drawing window
+    screen = py.display.set_mode([boardWidth, boardWidth + width + margin])
+    screen.fill([0,0,0])
+    
+    #Create Solve Button
+    rect0 = py.draw.rect(screen, [50,50,50], py.Rect(4*margin + 3*width, 4*margin + 3*width, 3*width + 2*margin, width))
+    rect0 = (rect0[0] + round(width*0.9), rect0[1] + round(width*0.25), rect0[2], rect0[3])
+        
+    text0 = font.render("Start", True, (255,255,255))
+        
+    screen.blit(text0,rect0)
+
+    #Create Exit Button
+    rect1 = py.draw.rect(screen, [50,50,50], py.Rect(4*margin + 3*width, 6*margin + 5*width, 3*width + 2*margin, width))
+    rect1 = (rect1[0] + round(width*1.05), rect1[1] + round(width*0.25), rect1[2], rect1[3])
+        
+    text1 = font.render("Exit", True, (255,255,255))
+        
+    screen.blit(text1,rect1)
 
     # Did the user click the window close button?
     for event in py.event.get():
@@ -48,7 +67,14 @@ while playing:
                 if y < start:
                     break
                 start += (width + margin)
-            print("{},{}".format(gridx,gridy))
+            #Start button clicked:    
+            if (2 < gridx < 6):
+                if (gridy == 3):
+                    mainFunction()
+                elif (gridy == 5):
+                    playing = False
+            
+            #print("{},{}".format(gridx,gridy))
                 
     # Flip the display
     py.display.flip()
