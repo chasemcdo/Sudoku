@@ -6,10 +6,12 @@ Created on Tue Dec 29 11:05:39 2020
 """
 
 from AppInterface import *
-
+from Sudoku import originalBoard
+from random import randrange
+from BoardBank import *
 #Initialize PyGame
 py.init()
-
+global originalBoard
 #Calls the Board
 #mainFunction()
 
@@ -66,11 +68,18 @@ while playing:
                 gridy = i
                 if y < start:
                     break
-                start += (width + margin)
-            #Start button clicked:    
+                start += (width + margin) 
             if (2 < gridx < 6):
+            #Start button clicked:   
                 if (gridy == 3):
+                    boardNumber = randrange(len(board))
+                    originalBoard = []
+                    print(board[boardNumber])
+                    for row in board[boardNumber]:
+                        originalBoard.append(list(row))
+                        
                     mainFunction()
+            #Exit button clicked
                 elif (gridy == 5):
                     playing = False
             
