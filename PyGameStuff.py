@@ -87,14 +87,8 @@ while running:
                 array[gridy][gridx] = 1
             else:
                 array[gridy][gridx] = 0
-                
-                
             
-                
-            
-            
-            
-            print("({},{})".format(gridx,gridy))
+            #print("({},{})".format(gridx,gridy))
      
     #Checks the value of the grid and writes accordingly
     currentX = float(margin)
