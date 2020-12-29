@@ -2,6 +2,16 @@
 """
 Created on Tue Dec 29 13:40:17 2020
 
+This is the bank of boards used for pseudorandom generation of the gameboard.
+I may create an actual random board generator so that there can be many more boards,
+but that kind of negates the original point of this project which was creating the Sudoku Solver.
+
+This is because the best way I have found to create random boards is to take a random filled board
+and remove numbers at random such that there still exits one unique solution to the board and
+stop removing numbers once doing so would result in more than one solution.
+
+This makes the solver redundant, as we would have the complete board from the beginning in this case.
+
 @author: chase
 """
 
