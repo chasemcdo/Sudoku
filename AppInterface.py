@@ -40,13 +40,13 @@ for i in range(9):
         toAppend.append(False)
     isActive.append(toAppend)
 
-#create array of 0s
-# array = []
-# for i in range(9):
-#     toAppend = []
-#     for j in range(9):
-#         toAppend.append(0)
-#     array.append(toAppend)
+#create array of 0s for check
+correctnessArray = []
+for i in range(9):
+    toAppend = []
+    for j in range(9):
+        toAppend.append(0)
+    correctnessArray.append(toAppend)
 
 array = []
 for row in originalBoard:
@@ -84,6 +84,14 @@ rect1 = (rect1[0] + round(width*0.25), rect1[1] + round(width*0.25), rect1[2], r
 text1 = font.render("Reset", True, (255,255,255))
 
 screen.blit(text1,rect1)
+
+#Create check button
+rect2 = py.draw.rect(screen, [0,0,0], py.Rect(5*margin + width*4, boardWidth, 2*width + margin, width))
+rect2 = (rect2[0] + round(width*0.25), rect2[1] + round(width*0.25), rect2[2], rect2[3])
+
+text2 = font.render("Check", True, (255,255,255))
+
+screen.blit(text2,rect2)
 
 
 #Change Font For Gameloop
@@ -149,6 +157,25 @@ while running:
                     array = []
                     for row in originalBoard:
                         array.append(list(row))
+                #Add code for check
+                elif (gridx < 6):
+                    incorrectLocations = checkValid(array)
+                    #Reset correctnessArray
+                    correctnessArray = []
+                    for i in range(9):
+                        toAppend = []
+                        for j in range(9):
+                            toAppend.append(0)
+                        correctnessArray.append(toAppend)
+                    #There are not any incorrect spots
+                    if len(incorrectLocations) == 0:
+                        pass
+                    #Incorrect cells exist.
+                    else:
+                        for pos in incorrectLocations:
+                            x = pos[1]
+                            y = pos[0]
+                            correctnessArray[y][x] = 1
         
         #Following mouseclick checks for KEYDOWN
         elif (event.type == py.KEYDOWN):
@@ -158,11 +185,20 @@ while running:
                 y = activity[1][0]
                 #print("True")
                 if event.key == py.K_KP_ENTER:
-                        print("Enter")
+                        #print("Enter")
                         isActive[y][x] = False
-                elif event.unicode in "123456789":
-                #User typed something after clicking on a box.
-                    array[y][x] = int(event.unicode)
+                else:
+                    try:
+                        int(event.unicode)
+                        if event.unicode in "1234567890":
+                        #User typed something after clicking on a box.
+                            array[y][x] = int(event.unicode)
+                    except:
+                        pass
+                        #array[y][x] = int(event.unicode)
+                # if event.unicode in "123456789":
+                # #User typed something after clicking on a box.
+                #     array[y][x] = int(event.unicode)
                 
                 
      
@@ -173,7 +209,10 @@ while running:
         for j in range(0,9):
             #Creates Square
             if (originalBoard[i][j] == 0):
-                rect = py.draw.rect(screen, [0,0,0], py.Rect(currentX, currentY, width, width))
+                if (correctnessArray[i][j] == 1):
+                    rect = py.draw.rect(screen, [255,0,0], py.Rect(currentX, currentY, width, width))
+                else:
+                    rect = py.draw.rect(screen, [0,0,0], py.Rect(currentX, currentY, width, width))
             else:
                 rect = py.draw.rect(screen, [50,50,50], py.Rect(currentX, currentY, width, width))
             #Initilizes text to be written in the square
