@@ -105,7 +105,15 @@ def checkValid(board):
                     if (y != i):
                         if (board[i][x] == currVal) & ([y,x] not in incorrectSpots):
                             incorrectSpots.append([y,x])
-    
+                quadrant = findQuadrant([y][x]) #Calls a function that will check which "quadrant" the point is, since there can only be one of each number in each "qudrant"
+                bounds = getBounds(quadrant) #Calls a function that will give us the bounds for our loop
+                
+                for i in range(bounds[0][0], (bounds[0][1]+1)):
+                    for j in range(bounds[1][0], bounds[1][1]+1):
+                        if (i != y) & (j != x):
+                            if (board[i][j] == currVal) & ([y,x] not in incorrectSpots):
+                                incorrectSpots.append([y,x])
+                
     return incorrectSpots
 
 def findQuadrant(location):
