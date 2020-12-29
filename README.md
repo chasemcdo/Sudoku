@@ -9,10 +9,13 @@ How to use:
 In the Sudoku.py file, you'll find all the "brains" behind the solving and computation.
 
 
+
 The "AppInterface.py" file is where the interface is created. This file will call upon the Sudoku.py file to solve and check.
 Currently AppInterface pulls the "originalBoard" from Sudoku, but this may change in a future update and will be reflected in this document.
 
-To run the program, you'll need to pull both "Sudoku.py" and "AppInterface.py".
-Running "AppInterface.py" will initiate the gameboard where you'll have the ability to play the game and click the buttons at the bottom of the interface to do certain actions.
-The currently available actions are:
-Solve, Reset, Check, and Hint
+Getting the most out of this program will require pulling all three pythong files.
+
+"Menu.py" is the file that you will run to get the "whole experience".
+When run this file will bring up a menu that allows you to choose to start the game.
+
+When in the game if you click the red button in the bottom right, you will be brought back to the menu.
