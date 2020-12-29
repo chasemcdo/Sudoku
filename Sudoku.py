@@ -95,15 +95,16 @@ def checkValid(board):
     for y in range(len(board)):
         for x in range(len(board[0])):
             currVal = board[y][x]
-            for i in range(0,len(board[0])): #Check row, and pop found values from the list of possible values
-                if (x != i):
-                    if (board[y][i] == currVal) & ([y,x] not in incorrectSpots):
-                        incorrectSpots.append([y,x])
-               
-            for i in range(0,len(board[0])): #Check column, and pop found values from the list of possible values
-                if (y != i):
-                    if (board[i][x] == currVal) & ([y,x] not in incorrectSpots):
-                        incorrectSpots.append([y,x])
+            if (currVal != 0) & (originalBoard[y][x] == 0):
+                for i in range(0,len(board[0])): #Check row, and pop found values from the list of possible values
+                    if (x != i):
+                        if (board[y][i] == currVal) & ([y,x] not in incorrectSpots):
+                            incorrectSpots.append([y,x])
+                   
+                for i in range(0,len(board[0])): #Check column, and pop found values from the list of possible values
+                    if (y != i):
+                        if (board[i][x] == currVal) & ([y,x] not in incorrectSpots):
+                            incorrectSpots.append([y,x])
     
     return incorrectSpots
 
