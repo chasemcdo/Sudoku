@@ -13,6 +13,7 @@ def ifActive(array):
     return [False,[0,0]]
 
 from Sudoku import *
+from random import randrange
 # Import and initialize the pygame library
 import pygame as py
 py.init()
@@ -30,6 +31,18 @@ solvedBoard = SudokuSolverStart(originalBoard)
 # Set up the drawing window
 screen = py.display.set_mode([boardWidth, boardWidth + width + margin])
 screen.fill([255,255,255])
+
+
+py.draw.rect(screen, [120,120,120], py.Rect(0, 0, boardWidth, boardWidth))
+
+dividerColor = [255,255,255]
+#Creat horizontal blue bars
+py.draw.rect(screen, dividerColor, py.Rect(0, 3*margin + 3*width, boardWidth, margin))
+py.draw.rect(screen, dividerColor, py.Rect(0, 6*margin + 6*width, boardWidth, margin))
+#Create vertical blue bars
+py.draw.rect(screen, dividerColor, py.Rect(3*margin + 3*width, 0, margin, boardWidth))
+py.draw.rect(screen, dividerColor, py.Rect(6*margin + 6*width, 0, margin, boardWidth))
+#screen.blit(screen,rect9)
 
 
 #Create array that keeps track of active boxes
@@ -93,6 +106,13 @@ text2 = font.render("Check", True, (255,255,255))
 
 screen.blit(text2,rect2)
 
+#Create hint button
+rect3 = py.draw.rect(screen, [0,0,0], py.Rect(7*margin + width*6, boardWidth, 2*width + margin, width))
+rect3 = (rect3[0] + round(width*0.5), rect3[1] + round(width*0.25), rect3[2], rect3[3])
+
+text3 = font.render("Hint", True, (255,255,255))
+
+screen.blit(text3,rect3)
 
 #Change Font For Gameloop
 font = py.font.Font('freesansbold.ttf',32)
@@ -152,11 +172,28 @@ while running:
                     array = []
                     for row in solvedBoard:
                         array.append(list(row))
+                    #Reset CorrectnessArray
+                    correctnessArray = []
+                    for i in range(9):
+                        toAppend = []
+                        for j in range(9):
+                            toAppend.append(0)
+                        correctnessArray.append(toAppend)
+                    
+    
                 #Reset triggered        
                 elif (gridx < 4):
                     array = []
                     for row in originalBoard:
                         array.append(list(row))
+                    #Reset CorrectnessArray
+                    correctnessArray = []
+                    for i in range(9):
+                        toAppend = []
+                        for j in range(9):
+                            toAppend.append(0)
+                        correctnessArray.append(toAppend)
+                        
                 #Add code for check
                 elif (gridx < 6):
                     incorrectLocations = checkValid(array)
@@ -176,7 +213,43 @@ while running:
                             x = pos[1]
                             y = pos[0]
                             correctnessArray[y][x] = 1
-        
+                #Hint was prompted
+                elif (gridx < 8):
+                    #Code for check added, as part of the hint
+                    incorrectLocations = checkValid(array)
+                    #Reset correctnessArray
+                    correctnessArray = []
+                    for i in range(9):
+                        toAppend = []
+                        for j in range(9):
+                            toAppend.append(0)
+                        correctnessArray.append(toAppend)
+                    #There are not any incorrect spots
+                    if len(incorrectLocations) == 0:
+                        pass
+                    #Incorrect cells exist.
+                    else:
+                        for pos in incorrectLocations:
+                            x = pos[1]
+                            y = pos[0]
+                            correctnessArray[y][x] = 1
+                    
+                    possible = False
+                    #New hint code starts
+                    #Loop checks to see if there exists a cell that can be filled, to avoid a crash
+                    for i in range(len(array)):
+                        for j in range(len(array)):
+                            if((array[i][j] == 0) | (correctnessArray[i][j] == 1)):
+                                possible = True
+                    #After determining if a cell can be filled we run a loop that exits once a pseudorandom cell is found that is writable.
+                    if possible:            
+                        x = 0
+                        y = 0
+                        while((array[y][x] != 0) & (correctnessArray[y][x] != 1)):
+                            x = randrange(9)
+                            y = randrange(9)
+                        array[y][x] = solvedBoard[y][x]
+                        
         #Following mouseclick checks for KEYDOWN
         elif (event.type == py.KEYDOWN):
             activity = ifActive(isActive)
