@@ -187,6 +187,8 @@ while running:
                 if event.key == py.K_KP_ENTER:
                         #print("Enter")
                         isActive[y][x] = False
+                elif (event.key == py.K_BACKSPACE) | (event.key == py.K_DELETE):
+                    array[y][x] = 0
                 else:
                     try:
                         int(event.unicode)
