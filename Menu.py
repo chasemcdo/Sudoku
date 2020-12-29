@@ -7,5 +7,8 @@ Created on Tue Dec 29 11:05:39 2020
 
 from AppInterface import *
 
+#Initialize PyGame
 py.init()
+
+#Calls the Board
 mainFunction()
