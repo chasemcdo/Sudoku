@@ -97,8 +97,8 @@ while playing:
                 if (gridy == 3):
                     boardNumber = randrange(len(board))
                     #global orgBoard
-                    print(board[boardNumber])
-                    print("\n")
+                    #print(board[boardNumber])
+                    #print("\n")
                     orgBoard = []
                     for row in board[boardNumber]:
                         orgBoard.append(list(row))
