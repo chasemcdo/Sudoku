@@ -30,6 +30,9 @@ def mainFunction(orgBoard):
     margin = 2
     boardWidth = 380
     
+    #Bools for use when determining when to change to the victory screen.
+    solvedClicked = False
+    isWin = False
     
     #Calls the Board Solver from Sudoku.py and solves the orgBoard also located there:
     solvedBoard = SudokuSolverStart(orgBoard)
@@ -171,9 +174,9 @@ def mainFunction(orgBoard):
                         break
                     start += (width + margin)
                     
+                if (isWin == True) & (gridy == 4) & (2 < gridx < 6):
+                    running = False
                 
-                #Changes the value of the gridpoint
-                #Will be removed after testing
                 if (gridy <= 8):
                     #This is where the user input will be taken
                     if (orgBoard[gridy][gridx] == 0):
@@ -188,6 +191,7 @@ def mainFunction(orgBoard):
                 elif (gridy > 8):
                     #Solve button Clicked
                     if (gridx < 2):
+                        solvedClicked = True
                         array = []
                         for row in solvedBoard:
                             array.append(list(row))
@@ -202,6 +206,7 @@ def mainFunction(orgBoard):
         
                     #Reset triggered        
                     elif (gridx < 4):
+                        solvedClicked = False
                         array = []
                         for row in orgBoard:
                             array.append(list(row))
@@ -326,9 +331,32 @@ def mainFunction(orgBoard):
                 currentX += width + margin
             currentY += width + margin
             currentX = float(margin)
-        #This was just here for testing sizing
-        # py.draw.circle(screen, (0, 0, 255), (250, 250), margin/2)
         
+        #Victory Display when the board is finished
+        if ((array == solvedBoard) & (solvedClicked == False)) | (isWin == True):
+            #You have won
+            isWin = True
+            
+            #Create Menu Button after win
+            font = py.font.Font('freesansbold.ttf',20)
+            rect0 = py.draw.rect(screen, [75,200,75], py.Rect(4*margin+3*width, 5*margin+4*width, 3*width + 2*margin, width))
+            rect0 = (rect0[0] + round(width*0.85), rect0[1] + round(width*0.25), rect0[2], rect0[3])
+            
+            text0 = font.render("Menu", True, (255,255,255))
+            
+            screen.blit(text0,rect0)
+            
+            #fix font for condition exit
+            font = py.font.Font('freesansbold.ttf',32)
+            
+            #Display victory text
+            rect0 = py.draw.rect(screen, [255,255,255], py.Rect(3*margin+2*width, 3*margin+2*width, 5*width + 4*margin, width))
+            rect0 = (rect0[0] + round(width*0.2), rect0[1] + round(width*0.15), rect0[2], rect0[3])
+            text0 = font.render("You've Won!", True, (75,200,75))
+            screen.blit(text0,rect0)
+            
+            
+            
         # Update the display
         py.display.flip()
     
