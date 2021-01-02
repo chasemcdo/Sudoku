@@ -11,9 +11,11 @@ In the Sudoku.py file, you'll find all the "brains" behind the solving and compu
 
 
 The "AppInterface.py" file is where the interface is created. This file will call upon the Sudoku.py file to solve and check.
-Currently AppInterface pulls the "originalBoard" from Sudoku, but this may change in a future update and will be reflected in this document.
+Currently AppInterface pulls the board pseudorandomly from "BoardBank.py", which may be updated in the future.
+The plan for the future of Board generation is to create a generator that will create boards and add them to "BoardBank.py" for later use.
+This implementation allows me to run the board generator, and store the boards to decrease run time for the user.
 
-Getting the most out of this program will require pulling all three pythong files.
+Getting the most out of this program will require pulling all three python files.
 
 "Menu.py" is the file that you will run to get the "whole experience".
 When run this file will bring up a menu that allows you to choose to start the game.
