@@ -255,6 +255,7 @@ def CheckLengths(select):
         find shortest
         Returns the length and the location
     '''
+    
     if (select == 0):
         length = 0
     elif(select == 1):
