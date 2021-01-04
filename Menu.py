@@ -8,6 +8,8 @@ Created on Tue Dec 29 11:05:39 2020
 from AppInterface import *
 from random import randrange
 from BoardBank import *
+import numpy as np
+import time
 #Initialize PyGame
 py.init()
 
@@ -20,9 +22,9 @@ for i in range(9):
         toAppend.append(0)
     orgBoard.append(toAppend)
     
-    
-#Calls the Board
-#mainFunction()
+
+#Gets high score data from data sheet    
+highScore = np.loadtxt('scores.dat')
 
 #Dimensional Variables for each square
 width = 40
@@ -68,6 +70,21 @@ while playing:
     text1 = font.render("Exit", True, (255,255,255))
         
     screen.blit(text1,rect1)
+    
+    #Display High Score Text
+    rect1 = py.draw.rect(screen, [0,0,0], py.Rect(2*margin + 1*width, 7*margin + 6*width, 3*width + 2*margin, width))
+    rect1 = (rect1[0] + round(width*(0.3)), rect1[1] + round(width*0.25), rect1[2], rect1[3])
+        
+    text1 = font.render("Top Score:", True, (255,255,255))
+        
+    screen.blit(text1,rect1)
+    
+    #Display actual score
+    rect1 = py.draw.rect(screen, [50,50,50], py.Rect(5*margin + 4*width, 7*margin + 6*width, 1*width + 0*margin, width))
+    rect1 = (rect1[0] + round(width*(0.15)), rect1[1] + round(width*0.25), rect1[2], rect1[3])
+        
+    text1 = font.render("{}".format(round(float(highScore),1)), True, (255,255,255))
+    screen.blit(text1,rect1)
 
     # Did the user click the window close button?
     for event in py.event.get():
@@ -102,8 +119,20 @@ while playing:
                     orgBoard = []
                     for row in board[boardNumber]:
                         orgBoard.append(list(row))
-                        
-                    mainFunction(orgBoard)
+                    #startTime = time.time()   
+                    returnCondition = mainFunction(orgBoard)
+                    if returnCondition:
+                        #print(returnCondition, highScore)
+                        #timeTaken = time.time() - startTime
+                        #Rewrites the high score data sheet to indicate the new fastest time
+                        if ((returnCondition < float(highScore)) | (float(highScore) == 0.0)):
+                            header = "High Score"
+                            np.savetxt('scores.dat', [returnCondition], header=header)
+                            
+                            highScore = np.loadtxt('scores.dat')
+                            text1 = font.render("{}".format(round(float(highScore),1)), True, (255,255,255))
+                            screen.blit(text1,rect1)
+                    
             #Exit button clicked
                 elif (gridy == 5):
                     playing = False
