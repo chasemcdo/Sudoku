@@ -80,8 +80,8 @@ while playing:
     screen.blit(text1,rect1)
     
     #Display actual score
-    rect1 = py.draw.rect(screen, [50,50,50], py.Rect(5*margin + 4*width, 7*margin + 6*width, 1*width + 0*margin, width))
-    rect1 = (rect1[0] + round(width*(0.15)), rect1[1] + round(width*0.25), rect1[2], rect1[3])
+    rect1 = py.draw.rect(screen, [50,50,50], py.Rect(5*margin + 3.75*width, 7*margin + 6*width, 1.5*width + 0*margin, width))
+    rect1 = (rect1[0] + round(width*(0.3)), rect1[1] + round(width*0.25), rect1[2], rect1[3])
         
     text1 = font.render("{}".format(round(float(highScore),1)), True, (255,255,255))
     screen.blit(text1,rect1)
