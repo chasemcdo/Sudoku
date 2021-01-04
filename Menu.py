@@ -10,6 +10,7 @@ from random import randrange
 from BoardBank import *
 import numpy as np
 import time
+
 #Initialize PyGame
 py.init()
 
