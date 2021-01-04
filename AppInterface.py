@@ -18,6 +18,7 @@ from random import randrange
 #from Menu import orgBoard
 # Import and initialize the pygame library
 import pygame as py
+import time
 
 #global orgBoard
     #orgBoard will now be passed in when mainFunction is called
@@ -141,6 +142,8 @@ def mainFunction(orgBoard):
     prevClick = [0,0]
     
     #Gameloop begins
+    
+    startTime = time.time()
     running = True
     
     while running:
@@ -175,7 +178,8 @@ def mainFunction(orgBoard):
                     start += (width + margin)
                     
                 if (isWin == True) & (gridy == 4) & (2 < gridx < 6):
-                    running = False
+                    return timeTaken
+                    #running = False
                 
                 if (gridy <= 8):
                     #This is where the user input will be taken
@@ -334,6 +338,10 @@ def mainFunction(orgBoard):
         
         #Victory Display when the board is finished
         if ((array == solvedBoard) & (solvedClicked == False)) | (isWin == True):
+            
+            if (isWin == False):
+                #print("Is False")
+                timeTaken = time.time() - startTime
             #You have won
             isWin = True
             
