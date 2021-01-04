@@ -21,3 +21,6 @@ Getting the most out of this program will require pulling all three python files
 When run this file will bring up a menu that allows you to choose to start the game.
 
 When in the game if you click the red button in the bottom right, you will be brought back to the menu.
+
+
+The "scores.dat" file exists to track the high score of the user. This data sheet contains a header and then the high score, which is the fastest time in seconds that a board has been completed.
